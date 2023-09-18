@@ -22,7 +22,7 @@ export const BOOK_LIST = [
   {
     title: 'The Hunger Games',
     author: 'Suzanne Collins',
-    genre: 'Science fiction',
+    genre: 'Science Fiction',
   },
   {
     title: "Harry Potter and the Philosopher's Stone",
@@ -30,8 +30,8 @@ export const BOOK_LIST = [
     genre: 'Fantasy',
   },
   {
-    title: 'To Kill a Mockingbird',
-    author: 'Harper Lee',
-    genre: 'Southern Gothic',
+    title: '1 cuốn sách về chủ nghĩa tối giản',
+    author: 'Chi Nguyễn',
+    genre: 'Minimalism',
   },
 ]
