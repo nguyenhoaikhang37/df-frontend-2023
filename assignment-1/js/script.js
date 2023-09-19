@@ -75,19 +75,6 @@ const app = {
     // Event delegation for click event on the table (delete book)
     // Reference link: https://javascript.info/event-delegation
     getElements().BOOK_TABLE.addEventListener('click', (event) => {
-      // Show the confirmation dialog
-      const dialogEl = $('#my-dialog')
-      if (!dialogEl) return
-
-      const dialog = new Dialog(dialogEl)
-      showDialog({
-        dialog,
-        title: 'Delete book',
-        dialogContentId: DIALOG_CONTENT_ID,
-        dialogTitleId: DIALOG_TITLE_ID,
-        templateId: 'confirm-delete-template',
-      })
-
       const { target } = event
 
       // Handle when click edit book button
@@ -96,36 +83,52 @@ const app = {
         this.handleAddOrEditBook('Edit', rowIndex - 1) // Pass the list of indexes to be edited
       }
 
-      // Change remove-book suitable with the book genre
-      const bookGenre =
-        target.parentElement.parentElement.querySelector('[data-column="genre"]').innerText
-      setTextContent(dialog.element, '#remove-book', bookGenre)
+      // Handle when click delete book button
+      if (target.id === 'delete-btn') {
+        // Show the confirmation dialog
+        const dialogEl = $('#my-dialog')
+        if (!dialogEl) return
 
-      // Handle when the confirm delete button in the dialog is clicked
-      const confirmDeleteButton = $('#confirm-delete-btn')
-      if (!confirmDeleteButton) return
+        const dialog = new Dialog(dialogEl)
+        showDialog({
+          dialog,
+          title: 'Delete book',
+          dialogContentId: DIALOG_CONTENT_ID,
+          dialogTitleId: DIALOG_TITLE_ID,
+          templateId: 'confirm-delete-template',
+        })
 
-      confirmDeleteButton.addEventListener('click', () => {
-        // Remove the book from the array based on the row position
-        const rowIndex = target.parentElement.parentElement.rowIndex
-        this.books.splice(rowIndex - 1, 1)
+        // Change remove-book suitable with the book genre
+        const bookGenre =
+          target.parentElement.parentElement.querySelector('[data-column="genre"]').innerText
+        setTextContent(dialog.element, '#remove-book', bookGenre)
 
-        // Update local storage and re-render the table
-        this.setConfig('books', this.books)
-        this.render()
+        // Handle when the confirm delete button in the dialog is clicked
+        const confirmDeleteButton = $('#confirm-delete-btn')
+        if (!confirmDeleteButton) return
 
-        // Hide the confirmation dialog
-        dialog.hide()
-      })
+        confirmDeleteButton.addEventListener('click', () => {
+          // Remove the book from the array based on the row position
+          const rowIndex = target.parentElement.parentElement.rowIndex
+          this.books.splice(rowIndex - 1, 1)
 
-      // Handle when the cancel button in the dialog is clicked
-      const cancelButton = $('#confirm-cancel-btn')
-      if (!cancelButton) return
+          // Update local storage and re-render the table
+          this.setConfig('books', this.books)
+          this.render()
 
-      cancelButton.addEventListener('click', () => {
-        // Hide the confirmation dialog
-        dialog.hide()
-      })
+          // Hide the confirmation dialog
+          dialog.hide()
+        })
+
+        // Handle when the cancel button in the dialog is clicked
+        const cancelButton = $('#confirm-cancel-btn')
+        if (!cancelButton) return
+
+        cancelButton.addEventListener('click', () => {
+          // Hide the confirmation dialog
+          dialog.hide()
+        })
+      }
     })
 
     // Handle when click add book button

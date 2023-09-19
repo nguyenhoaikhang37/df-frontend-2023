@@ -16,22 +16,37 @@ export const GENRES = [
   'Science Fiction',
   'Thriller',
   'Minimalism',
+  'Software Development',
+  'Web Development',
+  'Algorithms',
+  'Java Programming',
 ]
 
 export const BOOK_LIST = [
   {
-    title: 'The Hunger Games',
-    author: 'Suzanne Collins',
-    genre: 'Science Fiction',
+    title: 'Clean Code: A Handbook of Agile Software Craftsmanship',
+    author: 'Robert C. Martin',
+    genre: 'Software Development',
   },
   {
-    title: "Harry Potter and the Philosopher's Stone",
-    author: 'J. K. Rowling',
-    genre: 'Fantasy',
+    title: 'JavaScript: The Good Parts',
+    author: 'Douglas Crockford',
+    genre: 'Web Development',
+  },
+
+  {
+    title: 'Introduction to Algorithms',
+    author: 'Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein',
+    genre: 'Algorithms',
   },
   {
-    title: '1 cuốn sách về chủ nghĩa tối giản',
-    author: 'Chi Nguyễn',
-    genre: 'Minimalism',
+    title: 'The Pragmatic Programmer: Your Journey to Mastery',
+    author: 'Andrew Hunt, David Thomas',
+    genre: 'Software Development',
+  },
+  {
+    title: 'Effective Java',
+    author: 'Joshua Bloch',
+    genre: 'Java Programming',
   },
 ]
