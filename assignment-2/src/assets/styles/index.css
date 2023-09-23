@@ -1,7 +1,10 @@
 :root {
   --container-width: 1140px;
-  --primary-color: #e23c5f;
   --color-gray: #e5e5e5;
+  --color-primary: #e23c5f;
+  --color-text: hsl(0deg, 0%, 10%);
+  --color-background: hsl(0deg, 0%, 100%);
+  --color-toggle-background: hsl(250deg, 70%, 7%);
 }
 
 *,
@@ -19,6 +22,9 @@ html {
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  transition: background-color 0.5s;
 }
 
 /* COMMON */
@@ -36,6 +42,8 @@ button {
   padding: 8px 12px;
   border: 2px solid var(--color-gray);
   border-radius: 4px;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 .container {
@@ -45,50 +53,22 @@ button {
   margin-right: auto;
 }
 
-/* DIALOG */
-.btn--close {
-  all: unset;
-  padding: 10px;
-  cursor: pointer;
+.text-center {
+  text-align: center;
 }
 
-.dialog__header {
+.py-2 {
+  padding-block: 16px;
+}
+
+/* DIALOG */
+.dialog-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.dialog__header span {
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-
-.dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 12px 18px;
-  z-index: 999;
-  min-width: 300px;
-  min-height: auto;
-  border: 2px solid var(--color-gray);
-  background-color: white;
-}
-
-.back-drop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  background-color: rgba(255, 255, 255, 0.5);
-}
-
-.dialog__content {
+.dialog-children {
   padding-top: 28px;
 }
 
@@ -110,7 +90,7 @@ button {
 
 .confirm-delete__btns .btn--delete {
   background-color: transparent;
-  color: black;
+  color: var(--color-text);
 }
 
 /* FORM */
@@ -154,6 +134,12 @@ header {
   padding: 20px 0;
 }
 
+.header__right {
+  display: flex;
+  align-items: center;
+  column-gap: 24px;
+}
+
 .logo {
   font-size: 2.4rem;
   font-weight: bold;
@@ -192,7 +178,7 @@ header {
   display: inline-block;
   min-width: 98px;
   padding: 10px 12px;
-  background-color: var(--primary-color);
+  background-color: var(--color-primary);
   border-radius: 4px;
   border: none;
   font-weight: 400;
@@ -208,9 +194,13 @@ header {
 .btn--text {
   border: none;
   background-color: transparent;
-  color: var(--primary-color);
+  color: var(--color-primary);
   text-decoration: underline;
   padding: 4px 12px;
+}
+
+.btn--text.btn {
+  inset: all;
 }
 
 /* Style for table */
@@ -227,5 +217,17 @@ td {
 }
 
 .table tr th:first-child {
-  width: 40%;
+  width: 30%;
+}
+
+.table tr th:nth-child(2) {
+  width: 30%;
+}
+
+.table tr th:nth-child(3) {
+  width: 15%;
+}
+
+.table tr th:last-child {
+  width: 25%;
 }
