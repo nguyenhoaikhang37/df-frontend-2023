@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 import '../assets/styles/pagination.css'
+import ReactPaginate from 'react-paginate'
 
 const Pagination = ({
   totalItems,
@@ -7,40 +8,36 @@ const Pagination = ({
   currentPage: externalCurrentPage,
   onPageChange,
 }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage)
+  const [currentPage, setCurrentPage] = useState(0)
 
-  const [currentPage, setCurrentPage] = useState(1)
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
 
   useLayoutEffect(() => {
     setCurrentPage(externalCurrentPage)
+    console.log(externalCurrentPage)
   }, [externalCurrentPage])
 
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage)
-      onPageChange(newPage)
-    }
+  const handlePageClick = (event) => {
+    const newPage = event.selected + 1
+
+    onPageChange?.(newPage)
+    setCurrentPage(newPage)
   }
 
-  const renderPageNumbers = () => {
-    const pageNumbers = []
-
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <span
-          key={i}
-          onClick={() => handlePageChange(i)}
-          className={i === currentPage ? 'active' : ''}
-        >
-          {i}
-        </span>,
-      )
-    }
-
-    return pageNumbers
-  }
-
-  return <div className="pagination">{renderPageNumbers()}</div>
+  return (
+    <ReactPaginate
+      forcePage={currentPage - 1}
+      pageCount={totalPages}
+      onPageChange={handlePageClick}
+      previousLabel={'←'}
+      nextLabel={'→'}
+      containerClassName={'pagination'}
+      previousLinkClassName={'pagination__link'}
+      nextLinkClassName={'pagination__link'}
+      disabledClassName={'pagination__link--disabled'}
+      activeClassName={'pagination__link--active'}
+    />
+  )
 }
 
 export default Pagination

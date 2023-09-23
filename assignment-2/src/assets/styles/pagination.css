@@ -11,7 +11,7 @@
   justify-content: center;
 }
 
-.pagination span {
+.pagination a {
   cursor: pointer;
   margin: 0 5px;
   padding: 4px 12px;
@@ -22,13 +22,19 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-.pagination span:hover {
+.pagination a:hover {
   background-color: var(--color-primary);
   color: var(--color-background);
 }
 
-.pagination span.active {
+.pagination__link--active a {
   background-color: var(--color-primary);
   font-weight: bold;
   color: var(--color-background);
+}
+
+.pagination__link--disabled a {
+  cursor: not-allowed;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
