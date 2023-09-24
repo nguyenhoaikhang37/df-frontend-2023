@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { toast } from 'sonner'
 import { useLocalStorage } from 'usehooks-ts'
 import {
   BookForm,
@@ -150,8 +151,14 @@ const App = () => {
 
     if (isEditingBook) {
       handleEdit(title.value, author.value, genre.value)
+
+      // Show toast
+      toast.success(`Book ${title.value} has been edited`)
     } else {
       handleAdd(title.value, author.value, genre.value)
+
+      // Show toast
+      toast.success(`Book ${title.value} has been created`)
     }
 
     // Clear the form
@@ -160,6 +167,12 @@ const App = () => {
 
   const handleDelete = (id: string | number) => {
     setBookList((prevBookList) => prevBookList.filter((book) => book.id !== id))
+
+    // Show toast
+    const book = bookList.find((book) => book.id === id)
+    if (book) {
+      toast.success(`Book ${book.title} has been deleted`)
+    }
   }
 
   const handlePopupEditDialog = (id: string | number) => {
