@@ -17,9 +17,18 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.4",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "lucide-react": "^0.279.0",
     "next": "^13.5.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-paginate": "^8.2.0",
+    "sonner": "^1.0.3",
+    "tailwind-merge": "^1.14.0",
+    "usehooks-ts": "^2.9.1"
   },
   "devDependencies": {
     "@dwarvesf/react-eslint-config": "^1.0.1",
@@ -32,6 +41,7 @@
     "eslint-config-next": "^13.5.3",
     "postcss": "^8.4.30",
     "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.4",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2"
   },
