@@ -24,8 +24,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "preinstall": "npx only-allow pnpm",
-    "prepare": "husky install"
+    "preinstall": "npx only-allow pnpm"
   },
   "eslintConfig": {
     "extends": [
@@ -61,17 +60,6 @@
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
-  },
-  "lint-staged": {
-    "*.{css,html,json,tsx,ts}": [
-      "prettier --write ."
-    ],
-    "*.{tsx,ts}": "eslint --fix"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   },
   "packageManager": "pnpm@7.5.1"
 }
