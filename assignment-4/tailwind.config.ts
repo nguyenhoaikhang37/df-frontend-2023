@@ -10,8 +10,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#e23c5f',
-        background: 'hsl(0 0% 100%)',
+        primary: 'var(--color-primary)',
+        background: 'var(--color-background)',
+        text: 'var(--color-text)',
+        toggle: 'var(--color-toggle-background)',
       },
     },
   },

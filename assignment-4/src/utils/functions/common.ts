@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { ThemeMode } from '../../components/common/dark-mode-toggle'
 import { BOOKS_PER_PAGE } from '../constants'
 
 export function cn(...inputs: ClassValue[]) {
@@ -22,4 +23,31 @@ export function splitListIntoPages<T>(
   })
 
   return newListWithPagination
+}
+
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+// @see: https://www.joshwcomeau.com/react/dark-mode/
+export function getInitialColorMode(): ThemeMode {
+  const persistedColorPreference = window.localStorage.getItem(
+    'color-mode',
+  ) as ThemeMode
+  const hasPersistedPreference = typeof persistedColorPreference === 'string'
+  // If the user has explicitly chosen light or dark,
+  // let's use it. Otherwise, this value will be null.
+  if (hasPersistedPreference) {
+    return persistedColorPreference
+  }
+  // If they haven't been explicit, let's check the media
+  // query
+  const mql = window.matchMedia('(prefers-color-scheme: dark)')
+  const hasMediaQueryPreference = typeof mql.matches === 'boolean'
+  if (hasMediaQueryPreference) {
+    return mql.matches ? 'dark' : 'light'
+  }
+  // If they are using a browser/OS that doesn't support
+  // color themes, let's default to 'light'.
+  return 'light'
 }

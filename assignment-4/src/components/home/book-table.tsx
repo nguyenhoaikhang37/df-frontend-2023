@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { Book, BookList } from '../../types'
 import { Button } from '../common'
@@ -8,32 +10,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from '../common/dialog'
+import Link from 'next/link'
 
 interface BookTableProps {
   bookList: BookList
   onDeleteBook?: (id: string | number) => void
-  onPopupEditDialog: (id: string | number) => void
 }
 
-export default function BookTable({
-  bookList,
-  onDeleteBook,
-  onPopupEditDialog,
-}: BookTableProps) {
-  const [openDialog, setOpenDialog] = useState(false)
+export default function BookTable({ bookList, onDeleteBook }: BookTableProps) {
   const [deletedBook, setDeletedBook] = useState<Book | null>(null)
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false)
-  }
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true)
-  }
-
   const handleDelete = () => {
-    handleCloseDialog()
     if (!deletedBook) return
 
     onDeleteBook?.(deletedBook.id)
@@ -73,7 +62,7 @@ export default function BookTable({
                         <DialogDescription>
                           <div className="mt-6 text-center">
                             <p>
-                              Do you want to delete
+                              Do you want to delete{' '}
                               <span className="font-bold">
                                 {deletedBook?.title}
                               </span>{' '}
@@ -83,9 +72,9 @@ export default function BookTable({
                               <Button variant="link" onClick={handleDelete}>
                                 Delete
                               </Button>
-                              <Button onClick={handleCloseDialog}>
-                                Cancel
-                              </Button>
+                              <DialogClose asChild>
+                                <Button aria-label="Close">Cancel</Button>
+                              </DialogClose>
                             </div>
                           </div>
                         </DialogDescription>
@@ -93,11 +82,8 @@ export default function BookTable({
                     </DialogContent>
                   </Dialog>
 
-                  <Button
-                    variant="link"
-                    onClick={() => onPopupEditDialog(book?.id)}
-                  >
-                    Edit
+                  <Button variant="link">
+                    <Link href={`${book.id}`}>View</Link>
                   </Button>
                 </td>
               </tr>

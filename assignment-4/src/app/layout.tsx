@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
 import Header from '../components/common/header'
 import './globals.css'
+import './toggle.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} bg-[var(--color-background)] text-[var(--color-text)]`}
+      >
         <Toaster position="top-right" />
         <Header />
         {children}

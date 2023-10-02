@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Container from './container'
+import DarkModeToggle from './dark-mode-toggle'
 
 const Header = () => {
   return (
@@ -11,6 +12,7 @@ const Header = () => {
             Bookstore
           </Link>
           <div className="flex items-center gap-x-3">
+            <DarkModeToggle />
             <div className="flex items-center gap-x-2">
               <Image
                 src="/avatar.png"

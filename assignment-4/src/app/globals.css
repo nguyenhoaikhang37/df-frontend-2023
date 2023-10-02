@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #e23c5f;
+  --color-text: hsl(0deg, 0%, 10%);
+  --color-background: hsl(0deg, 0%, 100%);
+  --color-toggle-background: hsl(250deg, 70%, 7%);
+}
+
+.dark:root {
+  --color-primary: #e23c5f;
+  --color-text: hsl(0deg, 0%, 100%);
+  --color-background: hsl(250deg, 70%, 7%);
+  --color-toggle-background: hsl(0deg, 0%, 100%);
+}
+
 @layer components {
   .table {
     @apply w-full border-collapse;
@@ -28,12 +42,12 @@
     list-style: none;
   }
   .pagination a {
-    @apply bg-background mx-1 my-0 cursor-pointer select-none border border-solid border-stone-200 px-3 py-1 transition-[background-color] duration-[0.2s,color] hover:bg-primary hover:text-white;
+    @apply mx-1 my-0 cursor-pointer select-none border border-solid border-stone-200 bg-background px-3 py-1 transition-[background-color] duration-[0.2s,color] hover:bg-primary hover:text-white;
   }
   .pagination__link--active a {
-    @apply bg-primary font-[bold] text-white;
+    @apply bg-primary font-bold text-white;
   }
   .pagination__link--disabled a {
-    @apply cursor-not-allowed bg-primary;
+    @apply cursor-not-allowed;
   }
 }
