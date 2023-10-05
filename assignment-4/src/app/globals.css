@@ -31,10 +31,10 @@
     @apply w-[30%];
   }
   .table tr th:nth-child(3) {
-    @apply w-[20%];
+    @apply w-[25%];
   }
   .table tr th:last-child {
-    @apply w-[20%];
+    @apply w-[15%];
   }
 
   .pagination {

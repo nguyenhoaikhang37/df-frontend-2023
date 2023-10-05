@@ -1,6 +1,9 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useBook } from '../../contexts/BookContext'
+import { Book } from '../../types'
 import {
   Dialog,
   DialogClose,
@@ -11,27 +14,34 @@ import {
   DialogTrigger,
 } from '../common/dialog'
 import Button from './button'
-import { Book } from '../../types'
-import { useBook } from '../../contexts/BookContext'
 
 interface DeleteBookDialogProps {
   book: Book
+  shouldGoToHomePage?: boolean
 }
 
-export default function DeleteBookDialog({ book }: DeleteBookDialogProps) {
-  const [deletedBook, setDeletedBook] = useState<Book | null>(null)
+export default function DeleteBookDialog({
+  book,
+  shouldGoToHomePage,
+}: DeleteBookDialogProps) {
+  const router = useRouter()
   const { onDeleteBook } = useBook()
+
+  const [deletedBook, setDeletedBook] = useState<Book | null>(null)
 
   const handleDelete = () => {
     if (!deletedBook) return
 
     onDeleteBook?.(deletedBook.id)
+    if (shouldGoToHomePage) {
+      router.back()
+    }
   }
 
   return (
     <Dialog>
       <DialogTrigger>
-        <Button variant="link" onClick={() => setDeletedBook(book)}>
+        <Button variant="link" size="none" onClick={() => setDeletedBook(book)}>
           Delete
         </Button>
       </DialogTrigger>

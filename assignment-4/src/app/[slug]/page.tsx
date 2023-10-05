@@ -1,17 +1,14 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import Link from 'next/link'
+import { notFound, useParams } from 'next/navigation'
 import { Button, Container, DeleteBookDialog } from '../../components/common'
 import { BOOK_LIST } from '../../utils/functions'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
 
 export default function BookDetail() {
   const params = useParams()
 
   const bookById = BOOK_LIST.find((book) => `${book.id}` === params.slug)
-
-  // If the book is not found, return a not-found page
 
   if (!bookById) return notFound()
 
@@ -34,7 +31,7 @@ export default function BookDetail() {
         </p>
 
         <div className="mt-4">
-          <DeleteBookDialog book={bookById} />
+          <DeleteBookDialog book={bookById} shouldGoToHomePage />
         </div>
       </Container>
     </main>
