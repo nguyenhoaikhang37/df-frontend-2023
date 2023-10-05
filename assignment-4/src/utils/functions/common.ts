@@ -31,6 +31,10 @@ export function capitalizeFirstLetter(string: string) {
 
 // @see: https://www.joshwcomeau.com/react/dark-mode/
 export function getInitialColorMode(): ThemeMode {
+  if (typeof window === 'undefined') {
+    return 'light'
+  }
+
   const persistedColorPreference = window.localStorage.getItem(
     'color-mode',
   ) as ThemeMode
