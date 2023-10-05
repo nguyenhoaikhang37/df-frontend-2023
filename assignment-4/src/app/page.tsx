@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useMemo, useRef, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Button,
   Container,
@@ -18,16 +19,25 @@ import {
 import { BookForm, BookTable } from '../components/home'
 import { useBook } from '../contexts/BookContext'
 import { BOOKS_PER_PAGE } from '../utils/constants'
-import { generateRandomString, splitListIntoPages } from '../utils/functions'
+import {
+  createQueryString,
+  generateRandomString,
+  splitListIntoPages,
+} from '../utils/functions'
 
 export default function BookHome() {
-  const [searchValue, setSearchValue] = useState('')
-  const [page, setPage] = useState(1)
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const page = +searchParams.get('page')! || 1
+
+  const [searchValue, setSearchValue] = useState(
+    () => searchParams.get('q') || '',
+  )
   const { bookList, onCreateBook } = useBook()
   const [errorFormMsg, setErrorFormMsg] = useState('')
   const [open, setOpen] = useState(false)
-
-  const firstInputRef = useRef<HTMLInputElement>(null)
 
   const filteredBookList = useMemo(() => {
     const filteredList = bookList.filter((book) => {
@@ -46,8 +56,23 @@ export default function BookHome() {
     return splitListIntoPages(filteredBookList)[page - 1] // page - 1 because page starts from 0
   }, [filteredBookList, page])
 
+  useEffect(() => {
+    if (searchValue.trim() === '') {
+      // remove search param from url
+      router.push(pathname)
+    } else {
+      router.push(
+        pathname + '?' + createQueryString('q', searchValue, searchParams),
+      )
+      // reset page to 1 when search value changes
+      pathname + '?' + createQueryString('page', '1', searchParams)
+    }
+  }, [searchValue])
+
   const handlePageChange = (page: number) => {
-    setPage(page)
+    router.push(
+      pathname + '?' + createQueryString('page', page.toString(), searchParams),
+    )
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -105,7 +130,6 @@ export default function BookHome() {
                       <BookForm
                         onSubmit={handleSubmit}
                         errorMsg={errorFormMsg}
-                        firstInputRef={firstInputRef}
                       />
                     </div>
                   </DialogDescription>

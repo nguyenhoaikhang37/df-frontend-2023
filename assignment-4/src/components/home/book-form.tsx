@@ -6,10 +6,9 @@ import { SelectField, TextFieldWithLabel } from '../form'
 interface BookFormProps {
   errorMsg: string
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-  firstInputRef: React.Ref<HTMLInputElement>
 }
 
-const BookForm = ({ errorMsg, onSubmit, firstInputRef }: BookFormProps) => {
+const BookForm = ({ errorMsg, onSubmit }: BookFormProps) => {
   return (
     <form
       onSubmit={(e) => {
@@ -18,7 +17,7 @@ const BookForm = ({ errorMsg, onSubmit, firstInputRef }: BookFormProps) => {
     >
       <div className="mb-3">
         <TextFieldWithLabel
-          ref={firstInputRef}
+          autoFocus
           name="title"
           placeholder="Enter book name"
         />

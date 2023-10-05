@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from 'clsx'
+import { ReadonlyURLSearchParams } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
 import { ThemeMode } from '../../components/common/dark-mode-toggle'
 import { BOOKS_PER_PAGE } from '../constants'
@@ -54,4 +55,17 @@ export function getInitialColorMode(): ThemeMode {
   // If they are using a browser/OS that doesn't support
   // color themes, let's default to 'light'.
   return 'light'
+}
+
+// Get a new searchParams string by merging the current
+// searchParams with a provided key/value pair
+export const createQueryString = (
+  name: string,
+  value: string,
+  searchParams: ReadonlyURLSearchParams,
+) => {
+  const params = new URLSearchParams(searchParams)
+  params.set(name, value)
+
+  return params.toString()
 }
