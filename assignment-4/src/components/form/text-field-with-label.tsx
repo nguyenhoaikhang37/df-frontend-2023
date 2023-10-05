@@ -18,4 +18,6 @@ const TextFieldWithLabel = React.forwardRef<
   )
 })
 
+TextFieldWithLabel.displayName = 'TextFieldWithLabel'
+
 export default TextFieldWithLabel

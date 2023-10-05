@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../common/dialog'
+} from './dialog'
 import Button from './button'
 
 interface DeleteBookDialogProps {

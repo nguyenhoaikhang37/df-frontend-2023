@@ -10,41 +10,39 @@ interface BookTableProps {
 
 export default function BookTable({ bookList }: BookTableProps) {
   return (
-    <>
-      <table className="table" id="book-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Author</th>
-            <th>Topic</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookList?.length > 0 &&
-            bookList.map((book) => (
-              <tr key={book.id}>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.genre}</td>
-                <td>
-                  <DeleteBookDialog book={book} />
+    <table className="table" id="book-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Author</th>
+          <th>Topic</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {bookList?.length > 0 &&
+          bookList.map((book) => (
+            <tr key={book.id}>
+              <td>{book.title}</td>
+              <td>{book.author}</td>
+              <td>{book.genre}</td>
+              <td>
+                <DeleteBookDialog book={book} />
 
-                  <Button variant="link">
-                    <Link href={`${book.id}`}>View</Link>
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          {bookList?.length === 0 && (
-            <tr>
-              <td colSpan={4} className="py-2 text-center">
-                No books found
+                <Button variant="link">
+                  <Link href={`${book.id}`}>View</Link>
+                </Button>
               </td>
             </tr>
-          )}
-        </tbody>
-      </table>
-    </>
+          ))}
+        {bookList?.length === 0 && (
+          <tr>
+            <td colSpan={4} className="py-2 text-center">
+              No books found
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
   )
 }

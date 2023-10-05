@@ -10,9 +10,7 @@ module.exports = {
     'next',
     'next/core-web-vitals',
   ],
-  ignorePatterns: [
-    'node_modules/',
-  ],
+  ignorePatterns: ['node_modules/'],
   env: {
     es6: true,
     browser: true,
@@ -44,6 +42,7 @@ module.exports = {
         'react/jsx-sort-props': 'off',
         'react/function-component-definition': 'off',
         'no-shadow': 'off',
+        'import/no-cycle': 'off',
       },
     },
   ],

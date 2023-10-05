@@ -1,18 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { GENRES } from '../../utils/functions'
 import { Button } from '../common'
-import { SelectField, TextField, TextFieldWithLabel } from '../form'
+import { SelectField, TextFieldWithLabel } from '../form'
 
 interface BookFormProps {
   errorMsg: string
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   firstInputRef: React.Ref<HTMLInputElement>
-}
-
-const defaultFormValues = {
-  title: '',
-  author: '',
-  genre: '',
 }
 
 const BookForm = ({ errorMsg, onSubmit, firstInputRef }: BookFormProps) => {
