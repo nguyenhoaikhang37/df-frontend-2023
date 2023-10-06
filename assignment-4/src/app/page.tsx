@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Button,
   Container,
@@ -19,11 +19,7 @@ import {
 import { BookForm, BookTable } from '../components/home'
 import { useBook } from '../contexts/BookContext'
 import { BOOKS_PER_PAGE } from '../utils/constants'
-import {
-  createQueryString,
-  generateRandomString,
-  splitListIntoPages,
-} from '../utils/functions'
+import { generateRandomString, splitListIntoPages } from '../utils/functions'
 
 export default function BookHome() {
   const router = useRouter()
@@ -56,23 +52,30 @@ export default function BookHome() {
     return splitListIntoPages(filteredBookList)[page - 1] // page - 1 because page starts from 0
   }, [filteredBookList, page])
 
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = (name: string, value: string) => {
+    const params = new URLSearchParams(searchParams)
+    params.set(name, value)
+
+    return params.toString()
+  }
+
   useEffect(() => {
     if (searchValue.trim() === '') {
       // remove search param from url
       router.push(pathname)
     } else {
-      router.push(
-        pathname + '?' + createQueryString('q', searchValue, searchParams),
-      )
-      // reset page to 1 when search value changes
-      pathname + '?' + createQueryString('page', '1', searchParams)
+      const params = new URLSearchParams(searchParams)
+      params.set('q', searchValue)
+      params.set('page', '1')
+
+      router.push(`${pathname}?${params.toString()}`)
     }
   }, [searchValue])
 
   const handlePageChange = (page: number) => {
-    router.push(
-      pathname + '?' + createQueryString('page', page.toString(), searchParams),
-    )
+    router.push(`${pathname}?${createQueryString('page', page.toString())}`)
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
