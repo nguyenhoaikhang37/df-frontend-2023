@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from 'clsx'
-import { ReadonlyURLSearchParams } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
 import { ThemeMode } from '../../components/common/dark-mode-toggle'
 import { BOOKS_PER_PAGE } from '../constants'
