@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { Button } from '../components/common'
 import { HEADER_HEIGHT } from '../components/common/header'
