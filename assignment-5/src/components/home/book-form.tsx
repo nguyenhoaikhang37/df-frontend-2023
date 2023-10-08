@@ -34,7 +34,7 @@ const defaultValues: BookSchema = {
 interface BookFormProps {
   formValues?: Book
   isEditForm?: boolean
-  onSubmit?: (payload: Book | BookSchema) => void
+  onSubmit?: (payload: Book) => void
 }
 
 const BookForm = ({ formValues, isEditForm, onSubmit }: BookFormProps) => {
@@ -42,7 +42,7 @@ const BookForm = ({ formValues, isEditForm, onSubmit }: BookFormProps) => {
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<BookSchema>({
+  } = useForm<Book>({
     defaultValues: {
       ...defaultValues,
       ...formValues,
@@ -50,7 +50,7 @@ const BookForm = ({ formValues, isEditForm, onSubmit }: BookFormProps) => {
     resolver: yupResolver(bookSchema),
   })
 
-  async function handleLoginSubmit(payload: BookSchema) {
+  async function handleLoginSubmit(payload: Book) {
     await onSubmit?.(payload)
   }
 
