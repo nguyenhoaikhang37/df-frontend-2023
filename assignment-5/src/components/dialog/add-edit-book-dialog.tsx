@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from 'react'
+import { useState } from 'react'
+import { useBook } from '../../contexts/BookContext'
 import { Book } from '../../types'
 import { Button } from '../common'
 import { BookForm } from '../home'
@@ -13,18 +14,25 @@ import {
 
 export interface AddEditBookDialogProps {
   formValues?: Book
-  open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
-  onSubmit: (book: Book) => void
 }
 
 export default function AddEditBookDialog({
   formValues,
-  open,
-  setOpen,
-  onSubmit,
 }: AddEditBookDialogProps) {
+  const { onCreateBook, onEditBook } = useBook()
+
+  const [open, setOpen] = useState(false)
+
   const isEditForm = !!formValues
+
+  const handleSubmit = (book: Book) => {
+    if (isEditForm) {
+      onEditBook(book)
+    } else {
+      onCreateBook(book)
+    }
+    setOpen(false)
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -45,7 +53,7 @@ export default function AddEditBookDialog({
               <BookForm
                 formValues={formValues}
                 isEditForm={isEditForm}
-                onSubmit={onSubmit}
+                onSubmit={handleSubmit}
               />
             </div>
           </DialogDescription>

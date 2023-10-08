@@ -1,9 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { useBook } from '../../contexts/BookContext'
-import { Book, BookList } from '../../types'
+import { BookList } from '../../types'
 import { Button } from '../common'
 import { AddEditBookDialog, DeleteBookDialog } from '../dialog'
 
@@ -12,15 +10,6 @@ interface BookTableProps {
 }
 
 export default function BookTable({ bookList }: BookTableProps) {
-  const { onEditBook } = useBook()
-
-  const [openEditDialog, setOpenEditDialog] = useState(false)
-
-  const handleEditBook = (book: Book) => {
-    onEditBook(book)
-    setOpenEditDialog(false)
-  }
-
   return (
     <table className="table" id="book-table">
       <thead>
@@ -39,12 +28,7 @@ export default function BookTable({ bookList }: BookTableProps) {
               <td>{book.author}</td>
               <td>{book.genre}</td>
               <td>
-                <AddEditBookDialog
-                  formValues={book}
-                  setOpen={setOpenEditDialog}
-                  open={openEditDialog}
-                  onSubmit={handleEditBook}
-                />
+                <AddEditBookDialog formValues={book} />
 
                 <DeleteBookDialog book={book} />
 

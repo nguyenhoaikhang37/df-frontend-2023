@@ -2,9 +2,9 @@
 
 import Link from 'next/link'
 import { notFound, useParams } from 'next/navigation'
-import { Button, Container } from '../../components/common'
-import { DeleteBookDialog } from '../../components/dialog'
-import { BOOK_LIST } from '../../utils/functions'
+import { Button, Container } from '../../../components/common'
+import { AddEditBookDialog, DeleteBookDialog } from '../../../components/dialog'
+import { BOOK_LIST } from '../../../utils/functions'
 
 export default function BookDetail() {
   const params = useParams()
@@ -31,8 +31,9 @@ export default function BookDetail() {
           <span className="font-bold">Topic:</span> {bookById?.genre}
         </p>
 
-        <div className="mt-4">
+        <div className="mt-4 flex gap-x-2">
           <DeleteBookDialog book={bookById} shouldGoToHomePage />
+          <AddEditBookDialog formValues={bookById} />
         </div>
       </Container>
     </main>

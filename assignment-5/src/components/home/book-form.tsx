@@ -15,10 +15,7 @@ const bookSchema = yup.object({
   author: yup
     .string()
     .required('Please enter author')
-    .matches(
-      /^[a-zA-Z ]+$/,
-      'Author name must contain only letters and spaces',
-    ),
+    .matches(/^[^0-9]*$/, 'Author name must contain only letters and spaces'),
 
   genre: yup.string().required('Please enter genre').oneOf(GENRES),
 })

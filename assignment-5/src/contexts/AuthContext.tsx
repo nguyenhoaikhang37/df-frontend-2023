@@ -32,9 +32,6 @@ export default function AuthProvider(props) {
     const { email } = user
 
     setCurrentUser(email)
-
-    // redirect to home page
-    window.location.href = '/'
   }
 
   const handleLogout = () => {

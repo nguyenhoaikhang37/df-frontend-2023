@@ -2,14 +2,15 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useAuth } from '../../contexts/AuthContext'
+import Button from './button'
 import Container from './container'
 import DarkModeToggle from './dark-mode-toggle'
-import { useAuth } from '../../contexts/AuthContext'
 
 export const HEADER_HEIGHT = '80px'
 
 const Header = () => {
-  const { currentUser } = useAuth()
+  const { currentUser, onLogout } = useAuth()
 
   return (
     <header className="border-b border-slate-200">
@@ -31,7 +32,10 @@ const Header = () => {
                   height={35}
                   className="rounded-full"
                 />
-                <span>{currentUser}</span>
+                <span>{currentUser}</span>,
+                <Button variant="link" onClick={onLogout} size="none">
+                  Log out
+                </Button>
               </div>
             )}
           </div>

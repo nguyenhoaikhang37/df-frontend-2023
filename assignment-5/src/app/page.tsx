@@ -1,120 +1,42 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
-import { Container, Pagination, SearchInput } from '../components/common'
-import { AddEditBookDialog } from '../components/dialog'
-import { BookTable } from '../components/home'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { SignInForm } from '../components/login'
 import { useAuth } from '../contexts/AuthContext'
-import { useBook } from '../contexts/BookContext'
-import { Book } from '../types'
-import { BOOKS_PER_PAGE } from '../utils/constants'
-import { splitListIntoPages } from '../utils/functions'
+import { AuthSchema } from '../components/login/sign-in-form'
 
-export default function BookHome() {
+const Auth = () => {
   const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
 
-  const page = +searchParams.get('page')! || 1
-
-  const [searchValue, setSearchValue] = useState(
-    () => searchParams.get('q') || '',
-  )
-  const { currentUser } = useAuth()
-  const { bookList, onCreateBook } = useBook()
-
-  const [openAddDialog, setOpenAddDialog] = useState(false)
-
-  const filteredBookList = useMemo(() => {
-    const filteredList = bookList.filter((book) => {
-      const bookTitle = book.title.toLowerCase()
-      const searchValueLower = searchValue.toLowerCase()
-
-      return bookTitle.includes(searchValueLower)
-    })
-
-    return filteredList
-  }, [bookList, searchValue])
-
-  const paginatedBookList = useMemo(() => {
-    if (filteredBookList?.length === 0) return []
-
-    return splitListIntoPages(filteredBookList)[page - 1] // page - 1 because page starts from 0
-  }, [filteredBookList, page])
-
-  // Get a new searchParams string by merging the current
-  // searchParams with a provided key/value pair
-  const createQueryString = (name: string, value: string) => {
-    const params = new URLSearchParams(searchParams)
-    params.set(name, value)
-
-    return params.toString()
-  }
+  const { currentUser, onLogin } = useAuth()
 
   useEffect(() => {
-    if (!currentUser) {
-      // redirect to login page
-      router.push('/login')
+    if (currentUser) {
+      // redirect to book page
+      router.push('/book')
     }
   }, [currentUser])
 
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      // remove search param from url
-      router.push(pathname)
-    } else {
-      const params = new URLSearchParams(searchParams)
-      params.set('q', searchValue)
-      params.set('page', '1')
-
-      router.push(`${pathname}?${params.toString()}`)
-    }
-  }, [searchValue])
-
-  const handlePageChange = (page: number) => {
-    router.push(`${pathname}?${createQueryString('page', page.toString())}`)
-  }
-
-  const handleSubmit = (book: Book) => {
-    onCreateBook(book)
-
-    setOpenAddDialog(false)
+  const handleLogin = (loginPayload: AuthSchema) => {
+    onLogin(loginPayload)
+    router.push('/book')
   }
 
   return (
-    <main>
-      <Container>
-        <div className="flex items-center justify-between py-3">
-          <div>
-            <SearchInput
-              placeholder="Search books"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-          </div>
-          <div>
-            <AddEditBookDialog
-              setOpen={setOpenAddDialog}
-              open={openAddDialog}
-              onSubmit={handleSubmit}
-            />
-          </div>
+    <div className="relative h-screen w-full">
+      <div className="absolute left-1/2 top-1/2 w-full max-w-sm -translate-x-1/2 -translate-y-1/2 border border-stone-300 px-4 py-16">
+        <div className="p-2 text-center text-2xl font-bold text-primary">
+          <Link href="/">Bookstore</Link>
         </div>
 
-        <BookTable bookList={paginatedBookList} />
-
-        {filteredBookList.flat().length > BOOKS_PER_PAGE && (
-          <div className="flex justify-end pt-4">
-            <Pagination
-              totalItems={filteredBookList.flat().length}
-              itemsPerPage={BOOKS_PER_PAGE}
-              currentPage={page}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        )}
-      </Container>
-    </main>
+        <div className="mt-8">
+          <SignInForm onSubmit={handleLogin} />
+        </div>
+      </div>
+    </div>
   )
 }
+
+export default Auth
