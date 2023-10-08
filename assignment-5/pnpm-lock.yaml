@@ -42,7 +42,7 @@ dependencies:
     specifier: ^7.37.0
     version: 7.47.0(react@18.2.0)
   react-paginate:
-    specifier: ^8.2.0
+    specifier: ^8.0.0
     version: 8.2.0(react@18.2.0)
   sonner:
     specifier: ^1.0.3
