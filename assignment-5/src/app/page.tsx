@@ -5,9 +5,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { Container, Pagination, SearchInput } from '../components/common'
 import { AddEditBookDialog } from '../components/dialog'
 import { BookTable } from '../components/home'
-import { BookSchema } from '../components/home/book-form'
 import { useAuth } from '../contexts/AuthContext'
 import { useBook } from '../contexts/BookContext'
+import { Book } from '../types'
 import { BOOKS_PER_PAGE } from '../utils/constants'
 import { splitListIntoPages } from '../utils/functions'
 
@@ -76,7 +76,7 @@ export default function BookHome() {
     router.push(`${pathname}?${createQueryString('page', page.toString())}`)
   }
 
-  const handleSubmit = (book: BookSchema) => {
+  const handleSubmit = (book: Book) => {
     onCreateBook(book)
 
     setOpenAddDialog(false)

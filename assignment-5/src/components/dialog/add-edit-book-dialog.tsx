@@ -10,13 +10,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './dialog'
-import { BookSchema } from '../home/book-form'
 
 export interface AddEditBookDialogProps {
   formValues?: Book
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
-  onSubmit: (book: Book | BookSchema) => void
+  onSubmit: (book: Book) => void
 }
 
 export default function AddEditBookDialog({
