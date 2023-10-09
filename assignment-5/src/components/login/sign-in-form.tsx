@@ -3,6 +3,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import PasswordStrengthBar from 'react-password-strength-bar'
 import { Button } from '../common'
 import { TextFieldWithLabel } from '../form'
 
@@ -37,6 +38,7 @@ interface SignInFormProps {
 
 const SignInForm = ({ onSubmit }: SignInFormProps) => {
   const {
+    watch,
     control,
     handleSubmit,
     formState: { isSubmitting },
@@ -44,6 +46,8 @@ const SignInForm = ({ onSubmit }: SignInFormProps) => {
     defaultValues,
     resolver: yupResolver(authSchema),
   })
+
+  const password = watch('password')
 
   async function handleLoginSubmit(payload: AuthSchema) {
     await onSubmit?.(payload)
@@ -66,6 +70,9 @@ const SignInForm = ({ onSubmit }: SignInFormProps) => {
           placeholder="Enter your password"
           control={control}
         />
+        <div className="mt-2">
+          <PasswordStrengthBar password={password} />
+        </div>
       </div>
       <div className="mt-6 flex justify-end">
         <Button type="submit" loading={isSubmitting} className="w-full">

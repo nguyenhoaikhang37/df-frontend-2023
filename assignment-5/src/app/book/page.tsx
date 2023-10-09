@@ -59,9 +59,14 @@ export default function BookHome() {
   useEffect(() => {
     if (searchValue.trim() === '') {
       // remove search param from url
-      router.push(pathname)
+      const params = new URLSearchParams(searchParams)
+
+      params.delete('search')
+
+      router.push(`${pathname}?${params.toString()}`)
     } else {
       const params = new URLSearchParams(searchParams)
+
       params.set('q', searchValue)
       params.set('page', '1')
 
