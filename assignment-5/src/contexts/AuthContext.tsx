@@ -2,11 +2,11 @@
 
 import { createContext, useContext, useMemo } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
-import { AuthSchema } from '../components/login/sign-in-form'
+import { LoginPayload } from '../types'
 
 interface AuthContextType {
   currentUser: string
-  onLogin: (user: AuthSchema) => void
+  onLogin: (user: LoginPayload) => void
   onLogout: () => void
 }
 
@@ -28,7 +28,7 @@ export default function AuthProvider(props) {
     null,
   )
 
-  const handleLogin = (user: AuthSchema) => {
+  const handleLogin = (user: LoginPayload) => {
     const { email } = user
 
     setCurrentUser(email)

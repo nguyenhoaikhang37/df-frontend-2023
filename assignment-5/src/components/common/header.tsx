@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '../../contexts/AuthContext'
 import Button from './button'
 import Container from './container'
@@ -10,6 +11,7 @@ import DarkModeToggle from './dark-mode-toggle'
 export const HEADER_HEIGHT = '80px'
 
 const Header = () => {
+  const router = useRouter()
   const { currentUser, onLogout } = useAuth()
 
   return (
@@ -33,7 +35,14 @@ const Header = () => {
                   className="rounded-full"
                 />
                 <span>{currentUser}</span>,
-                <Button variant="link" onClick={onLogout} size="none">
+                <Button
+                  variant="link"
+                  onClick={() => {
+                    onLogout()
+                    router.push('/')
+                  }}
+                  size="none"
+                >
                   Log out
                 </Button>
               </div>

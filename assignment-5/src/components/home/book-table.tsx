@@ -33,7 +33,7 @@ export default function BookTable({ bookList }: BookTableProps) {
                 <DeleteBookDialog book={book} />
 
                 <Button variant="link">
-                  <Link href={`${book.id}`}>View</Link>
+                  <Link href={`/book/${book.id}`}>View</Link>
                 </Button>
               </td>
             </tr>

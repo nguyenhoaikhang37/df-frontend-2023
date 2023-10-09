@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { SignInForm } from '../components/login'
 import { useAuth } from '../contexts/AuthContext'
-import { AuthSchema } from '../components/login/sign-in-form'
+import { LoginPayload } from '../types'
 
 const Auth = () => {
   const router = useRouter()
@@ -19,7 +19,7 @@ const Auth = () => {
     }
   }, [currentUser])
 
-  const handleLogin = (loginPayload: AuthSchema) => {
+  const handleLogin = (loginPayload: LoginPayload) => {
     onLogin(loginPayload)
     router.push('/book')
   }
