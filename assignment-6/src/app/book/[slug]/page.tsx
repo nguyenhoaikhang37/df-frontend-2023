@@ -1,13 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { notFound, useParams } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { Button, Container } from '../../../components/common'
 import { AddEditBookDialog, DeleteBookDialog } from '../../../components/dialog'
 
 export default function BookDetail() {
-  const params = useParams()
-
   const bookById = undefined
 
   if (!bookById) return notFound()
