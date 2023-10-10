@@ -4,12 +4,11 @@ import Link from 'next/link'
 import { notFound, useParams } from 'next/navigation'
 import { Button, Container } from '../../../components/common'
 import { AddEditBookDialog, DeleteBookDialog } from '../../../components/dialog'
-import { BOOK_LIST } from '../../../utils/functions'
 
 export default function BookDetail() {
   const params = useParams()
 
-  const bookById = BOOK_LIST.find((book) => `${book.id}` === params.slug)
+  const bookById = undefined
 
   if (!bookById) return notFound()
 
@@ -22,13 +21,13 @@ export default function BookDetail() {
           </Button>
         </Link>
 
-        <h1 className="my-6 text-lg font-bold">{bookById?.title}</h1>
+        <h1 className="my-6 text-lg font-bold">{bookById}</h1>
 
         <p>
-          <span className="font-bold">Author:</span> {bookById?.author}
+          <span className="font-bold">Author:</span> {bookById}
         </p>
         <p>
-          <span className="font-bold">Topic:</span> {bookById?.genre}
+          <span className="font-bold">Topic:</span> {bookById}
         </p>
 
         <div className="mt-4 flex gap-x-2">

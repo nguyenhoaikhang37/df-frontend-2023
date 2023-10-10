@@ -39,10 +39,7 @@ export default function BookHome() {
   }, [bookList, searchValue])
 
   useEffect(() => {
-    console.log('🚀 1', debouncedValue)
-
     if (debouncedValue.trim() === '') {
-      console.log('🚀 2', debouncedValue)
       // remove search param from url
       const params = new URLSearchParams(searchParams)
 
