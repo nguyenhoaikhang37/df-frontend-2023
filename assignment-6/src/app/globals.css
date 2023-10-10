@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #e23c5f;
+  --color-text: hsl(0deg, 0%, 10%);
+  --color-background: hsl(0deg, 0%, 100%);
+  --color-toggle-background: hsl(250deg, 70%, 7%);
+}
+
+.dark:root {
+  --color-primary: #e23c5f;
+  --color-text: hsl(0deg, 0%, 100%);
+  --color-background: hsl(250deg, 70%, 7%);
+  --color-toggle-background: hsl(0deg, 0%, 100%);
+}
+
+@layer components {
+  .table {
+    @apply w-full border-collapse;
+  }
+  .table th,
+  td {
+    @apply border-2 border-solid border-stone-100 px-3 py-1 text-left;
+  }
+  .table tr th:first-child {
+    @apply w-[30%];
+  }
+  .table tr th:nth-child(2) {
+    @apply w-[30%];
+  }
+  .table tr th:nth-child(3) {
+    @apply w-[20%];
+  }
+  .table tr th:last-child {
+    @apply w-[20%];
+  }
+
+  .pagination {
+    @apply flex justify-center p-0;
+    list-style: none;
+  }
+  .pagination a {
+    @apply mx-1 my-0 cursor-pointer select-none border border-solid border-stone-200 bg-background px-3 py-1 transition-[background-color] duration-[0.2s,color] hover:bg-primary hover:text-white;
+  }
+  .pagination__link--active a {
+    @apply bg-primary font-bold text-white;
+  }
+  .pagination__link--disabled a {
+    @apply cursor-not-allowed;
+  }
+}

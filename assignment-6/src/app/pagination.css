@@ -1,0 +1,26 @@
+.page-item .page-link {
+  color: var(--color-primary);
+  background-color: var(--color-background);
+}
+
+.page-item.active .page-link {
+  font-weight: 700;
+  color: #ffffff;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.page-item.active .page-link:hover {
+  color: #ffffff;
+}
+
+.pagination .page-link:hover {
+  color: var(--color-primary);
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+  background-color: var(--color-background);
+  pointer-events: none;
+  cursor: auto;
+}

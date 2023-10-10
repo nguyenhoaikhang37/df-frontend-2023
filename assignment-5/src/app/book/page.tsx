@@ -61,7 +61,7 @@ export default function BookHome() {
       // remove search param from url
       const params = new URLSearchParams(searchParams)
 
-      params.delete('search')
+      params.delete('q')
 
       router.push(`${pathname}?${params.toString()}`)
     } else {
