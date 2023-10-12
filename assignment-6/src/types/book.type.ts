@@ -12,5 +12,5 @@ export interface Book {
 export interface BookPayload {
   author: string
   name: string
-  topicId: number
+  topicId: number | string
 }

@@ -45,7 +45,7 @@ function SelectField<T, K extends FieldValues>({
       <Label htmlFor={name}>{label}</Label>
       <Select name={name} onValueChange={onChange} value={value}>
         <SelectTrigger id={name}>
-          <SelectValue placeholder="Select HI" />
+          <SelectValue placeholder={`Select ${label}`} />
         </SelectTrigger>
         <SelectContent ref={ref}>
           {options.map((option) => (

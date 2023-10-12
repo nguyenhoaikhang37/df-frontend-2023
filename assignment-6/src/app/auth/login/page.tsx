@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { SignInForm } from '../components/login'
-import { LoginPayload } from '../types'
-import { useAuthSWR } from '../utils/hooks/apis'
+import { SignInForm } from '../../../components/login'
+import { LoginPayload } from '../../../types'
+import { useAuthSWR } from '../../../utils/hooks/apis'
 
 const Auth = () => {
   const { login } = useAuthSWR()

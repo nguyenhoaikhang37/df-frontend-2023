@@ -3,6 +3,7 @@
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
 import Header from '../components/common/header'
+import RouteGuard from '../components/common/route-guard'
 import './globals.css'
 import './toggle.css'
 
@@ -19,8 +20,11 @@ export default function RootLayout({
         className={`${inter.className} bg-[var(--color-background)] text-[var(--color-text)]`}
       >
         <Toaster position="top-right" />
-        <Header />
-        {children}
+        <RouteGuard>
+          <Header />
+
+          {children}
+        </RouteGuard>
       </body>
     </html>
   )

@@ -1,15 +1,17 @@
 'use client'
 
+import { useMemo } from 'react'
 import { toast } from 'sonner'
 import useSWR, { SWRConfiguration } from 'swr'
 import { bookApi } from '../../../services'
-import { BookPayload, Pagination, ListParams } from '../../../types'
+import { Book, BookPayload, ListParams, Pagination } from '../../../types'
 import { QueryKeys } from '../../constants'
-import { getErrorMessage } from '../../functions'
+import { getErrorMessage, isSSR } from '../../functions'
 
 export interface UseBookSWRProps {
   options?: SWRConfiguration
   params?: Partial<ListParams>
+  bookId?: number | string
 }
 
 const defaultParams = {
@@ -20,6 +22,7 @@ const defaultParams = {
 export function useBookSWR({
   options,
   params = defaultParams,
+  bookId,
 }: UseBookSWRProps = {}) {
   const { data, error, isLoading, mutate } = useSWR(
     [QueryKeys.GET_BOOK_LIST, params],
@@ -31,13 +34,20 @@ export function useBookSWR({
     },
   )
 
+  const { data: detailData, isLoading: isDetailLoading } = useSWR(
+    [QueryKeys.GET_BOOK_LIST, bookId],
+    () => bookApi.get(+bookId!),
+    {
+      dedupingInterval: 60 * 1000, // 60s
+      isPaused: () => (isSSR() ? true : Boolean(!bookId)),
+      ...options,
+    },
+  )
+  console.log('🚀 ~ file: useBookSWR.ts:27 ~ bookId:', { bookId, detailData })
+
   async function addNewBook(payload: BookPayload) {
     try {
       const newBook = await bookApi.add(payload)
-      console.log(
-        '🚀 ~ file: useBookSWR.ts:30 ~ addNewBook ~ newBook:',
-        newBook,
-      )
 
       mutate()
 
@@ -50,7 +60,10 @@ export function useBookSWR({
 
   async function updateBook(id: string | number, payload: BookPayload) {
     try {
-      const updatedBook = await bookApi.update(id, payload)
+      const updatedBook = await bookApi.update(id, {
+        ...payload,
+        topicId: +payload.topicId,
+      })
 
       mutate()
 
@@ -61,12 +74,31 @@ export function useBookSWR({
     }
   }
 
-  return {
-    bookList: data?.data ?? [],
-    metaData: (data?.metadata as Pagination) ?? {},
-    onAddBook: addNewBook,
-    onUpdateBook: updateBook,
-    isLoading,
-    isError: error,
+  async function deleteBook(deletedBook: Book) {
+    try {
+      await bookApi.delete(deletedBook.id)
+
+      mutate()
+
+      toast.success(`Book ${deletedBook.name} has been updated`)
+    } catch (error) {
+      const message = getErrorMessage(error)
+      toast.error(message)
+    }
   }
+
+  return useMemo(
+    () => ({
+      bookList: data?.data ?? [],
+      metaData: (data?.metadata as Pagination) ?? {},
+      detailBook: detailData?.data,
+      onAddBook: addNewBook,
+      onUpdateBook: updateBook,
+      onDeleteBook: deleteBook,
+      isLoading,
+      isDetailLoading,
+      isError: error,
+    }),
+    [data?.data, data?.metadata, error, isLoading],
+  )
 }

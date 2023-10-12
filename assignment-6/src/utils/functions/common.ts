@@ -32,7 +32,7 @@ export function capitalizeFirstLetter(string: string) {
 
 // @see: https://www.joshwcomeau.com/react/dark-mode/
 export function getInitialColorMode(): ThemeMode {
-  if (typeof window === 'undefined') {
+  if (isSSR()) {
     return 'light'
   }
 
@@ -72,4 +72,11 @@ export function createQueryString({
   params.set(name, value)
 
   return params.toString()
+}
+
+export function isSSR() {
+  if (typeof window === 'undefined') {
+    return true
+  }
+  return false
 }

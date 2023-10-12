@@ -1,5 +1,7 @@
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { Book, BookPayload } from '../../types'
+import { getFilterBookParams } from '../../utils/functions'
 import { useBookSWR } from '../../utils/hooks/apis'
 import { Button } from '../common'
 import { BookForm } from '../home'
@@ -19,7 +21,11 @@ export interface AddEditBookDialogProps {
 export default function AddEditBookDialog({
   formValues,
 }: AddEditBookDialogProps) {
-  const { onAddBook } = useBookSWR()
+  const searchParams = useSearchParams()
+
+  const { onAddBook, onUpdateBook } = useBookSWR({
+    params: getFilterBookParams(searchParams),
+  })
 
   const [open, setOpen] = useState(false)
 
@@ -27,7 +33,7 @@ export default function AddEditBookDialog({
 
   const handleSubmit = (book: BookPayload) => {
     if (isEditForm) {
-      // onEditBook(book)
+      onUpdateBook(formValues.id, book)
     } else {
       onAddBook(book)
     }

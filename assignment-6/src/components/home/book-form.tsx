@@ -17,14 +17,7 @@ const bookSchema = yup.object({
     .required('Please enter author')
     .matches(/^[^0-9]*$/, 'Author name must contain only letters and spaces'),
 
-  topicId: yup
-    .number()
-    .test(
-      'not-negative-one',
-      'Please enter a valid genre',
-      (value) => value !== -1,
-    )
-    .required('Please enter genre'),
+  topicId: yup.string().required('Please enter genre'),
 })
 
 export type BookSchema = yup.InferType<typeof bookSchema>
@@ -32,7 +25,7 @@ export type BookSchema = yup.InferType<typeof bookSchema>
 const defaultValues: BookSchema = {
   name: '',
   author: '',
-  topicId: -1,
+  topicId: '',
 }
 
 interface BookFormProps {
@@ -51,7 +44,7 @@ const BookForm = ({ formValues, isEditForm, onSubmit }: BookFormProps) => {
       ...defaultValues,
       name: formValues?.name ?? defaultValues.name,
       author: formValues?.author ?? defaultValues.author,
-      topicId: formValues?.topic?.id ?? defaultValues.topicId,
+      topicId: formValues?.topic?.id?.toString() ?? defaultValues.topicId,
     },
     resolver: yupResolver(bookSchema),
   })

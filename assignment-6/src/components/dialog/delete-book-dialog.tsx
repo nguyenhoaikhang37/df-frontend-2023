@@ -1,8 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { Book } from '../../types'
+import { getFilterBookParams } from '../../utils/functions'
+import { useBookSWR } from '../../utils/hooks/apis'
 import Button from '../common/button'
 import {
   Dialog,
@@ -24,21 +26,27 @@ export default function DeleteBookDialog({
   shouldGoToHomePage,
 }: DeleteBookDialogProps) {
   const router = useRouter()
-  // const {} = useBookSWR()
+  const searchParams = useSearchParams()
 
+  const { onDeleteBook } = useBookSWR({
+    params: getFilterBookParams(searchParams),
+  })
+
+  const [open, setOpen] = useState(false)
   const [deletedBook, setDeletedBook] = useState<Book | null>(null)
 
   const handleDelete = () => {
     if (!deletedBook) return
 
-    // onDeleteBook?.(deletedBook.id)
+    onDeleteBook?.(deletedBook)
     if (shouldGoToHomePage) {
       router.back()
     }
+    setOpen(false)
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button variant="link" size="none" onClick={() => setDeletedBook(book)}>
           Delete

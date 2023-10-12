@@ -6,7 +6,7 @@ import { useDebounce } from 'usehooks-ts'
 import { Container, SearchInput } from '../../components/common'
 import { AddEditBookDialog } from '../../components/dialog'
 import { BookTable } from '../../components/home'
-import { ListParams } from '../../types'
+import { getFilterBookParams } from '../../utils/functions'
 import { useBookSWR } from '../../utils/hooks/apis'
 
 export default function BookHome() {
@@ -14,13 +14,9 @@ export default function BookHome() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const filters: Partial<ListParams> = {
-    pageSize: 5,
-    page: Number(searchParams.get('page')) || 1,
-    query: searchParams.get('q') || '',
-  }
-
-  const { bookList, metaData } = useBookSWR({ params: filters })
+  const { bookList, metaData } = useBookSWR({
+    params: getFilterBookParams(searchParams),
+  })
 
   const [searchValue, setSearchValue] = useState(searchParams.get('q') || '')
   const debouncedValue = useDebounce(searchValue, 250)

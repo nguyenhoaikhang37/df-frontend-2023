@@ -2,8 +2,9 @@
 
 import useSWR, { SWRConfiguration } from 'swr'
 import { authApi } from '../../../services'
-import { LoginPayload } from '../../../types'
+import { LoginPayload, UserProfile } from '../../../types'
 import { QueryKeys, StorageKeys } from '../../constants'
+import { isSSR } from '../../functions'
 
 export interface UseAuthSWRProps {
   options?: Partial<SWRConfiguration>
@@ -16,7 +17,8 @@ export function useAuthSWR({ options }: UseAuthSWRProps = {}) {
     {
       dedupingInterval: 60 * 60 * 1000, // 1hr
       revalidateOnFocus: false,
-      isPaused: () => Boolean(!localStorage.getItem(StorageKeys.JWT)),
+      isPaused: () =>
+        isSSR() ? true : Boolean(!localStorage.getItem(StorageKeys.JWT)),
       ...options,
       onError(err) {
         console.log(err)
@@ -26,6 +28,8 @@ export function useAuthSWR({ options }: UseAuthSWRProps = {}) {
   )
 
   async function login(payload: LoginPayload) {
+    if (isSSR()) return
+
     const data = await authApi.login(payload)
 
     if (data?.data?.accessToken) {
@@ -39,11 +43,12 @@ export function useAuthSWR({ options }: UseAuthSWRProps = {}) {
   }
 
   async function logout() {
-    // localStorage.removeItem(StorageKeys.USER_INFO)
+    if (isSSR()) return
+    localStorage.removeItem(StorageKeys.JWT)
   }
 
   return {
-    profile: data?.data ?? {},
+    profile: (data?.data ?? {}) as UserProfile | undefined,
     isLoading,
     isError: error,
     login,

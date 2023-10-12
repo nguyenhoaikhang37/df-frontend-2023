@@ -23,16 +23,17 @@ const Header = () => {
           </Link>
           <div className="flex items-center gap-x-4">
             <DarkModeToggle />
-            {profile && (
+            {profile?.email && (
               <div className="flex items-center gap-x-2">
                 <Image
                   src="/avatar.png"
-                  alt="Teo"
+                  alt={profile?.email}
                   width={35}
                   height={35}
                   className="rounded-full"
                 />
-                <span>Teo</span>,
+                <span>{profile?.email}</span>
+                <span className="text-slate-300">|</span>
                 <Button variant="link" onClick={logout} size="none">
                   Log out
                 </Button>

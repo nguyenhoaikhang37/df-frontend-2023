@@ -1,8 +1,9 @@
+import { isSSR } from './common'
 import { UserProfile } from '../../types'
 import { StorageKeys } from '../constants'
 
 export function getAccessToken(): UserProfile | null {
-  if (typeof window === 'undefined') {
+  if (isSSR()) {
     return null
   }
 

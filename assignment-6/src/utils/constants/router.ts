@@ -1,4 +1,4 @@
 export const RouterPaths = {
-  HOME: '/',
+  LOGIN: '/auth/login',
   BOOK: '/book',
 }
