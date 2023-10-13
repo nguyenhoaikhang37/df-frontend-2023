@@ -9,7 +9,6 @@ import axiosClient from './axios-client'
 
 export const bookApi = {
   get(id: number | string): Promise<ResponseWithData<Book>> {
-    console.log('🚀 ~ file: book-api.ts:12 ~ get ~ id:', id)
     return axiosClient.get(`/books/${id}`)
   },
 

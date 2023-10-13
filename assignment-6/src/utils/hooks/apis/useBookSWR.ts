@@ -1,6 +1,5 @@
 'use client'
 
-import { useMemo } from 'react'
 import { toast } from 'sonner'
 import useSWR, { SWRConfiguration } from 'swr'
 import { bookApi } from '../../../services'
@@ -30,24 +29,27 @@ export function useBookSWR({
     {
       dedupingInterval: 60 * 1000, // 60s
       keepPreviousData: true,
+      isPaused: () => (isSSR() ? true : Boolean(bookId)),
       ...options,
     },
   )
 
-  const { data: detailData, isLoading: isDetailLoading } = useSWR(
-    [QueryKeys.GET_BOOK_LIST, bookId],
-    () => bookApi.get(+bookId!),
-    {
-      dedupingInterval: 60 * 1000, // 60s
-      isPaused: () => (isSSR() ? true : Boolean(!bookId)),
-      ...options,
-    },
-  )
-  console.log('🚀 ~ file: useBookSWR.ts:27 ~ bookId:', { bookId, detailData })
+  const {
+    data: detailData,
+    isLoading: isDetailLoading,
+    mutate: detailMutate,
+  } = useSWR([QueryKeys.GET_BOOK_LIST, bookId], () => bookApi.get(+bookId!), {
+    dedupingInterval: 60 * 1000, // 60s
+    isPaused: () => (isSSR() ? true : Boolean(!bookId)),
+    ...options,
+  })
 
   async function addNewBook(payload: BookPayload) {
     try {
-      const newBook = await bookApi.add(payload)
+      const newBook = await bookApi.add({
+        ...payload,
+        topicId: +payload.topicId,
+      })
 
       mutate()
 
@@ -65,7 +67,11 @@ export function useBookSWR({
         topicId: +payload.topicId,
       })
 
-      mutate()
+      if (bookId) {
+        detailMutate()
+      } else {
+        mutate()
+      }
 
       toast.success(`Book ${updatedBook.data.name} has been updated`)
     } catch (error) {
@@ -80,25 +86,22 @@ export function useBookSWR({
 
       mutate()
 
-      toast.success(`Book ${deletedBook.name} has been updated`)
+      toast.success(`Book ${deletedBook.name} has been deleted`)
     } catch (error) {
       const message = getErrorMessage(error)
       toast.error(message)
     }
   }
 
-  return useMemo(
-    () => ({
-      bookList: data?.data ?? [],
-      metaData: (data?.metadata as Pagination) ?? {},
-      detailBook: detailData?.data,
-      onAddBook: addNewBook,
-      onUpdateBook: updateBook,
-      onDeleteBook: deleteBook,
-      isLoading,
-      isDetailLoading,
-      isError: error,
-    }),
-    [data?.data, data?.metadata, error, isLoading],
-  )
+  return {
+    bookList: data?.data ?? [],
+    metaData: (data?.metadata as Pagination) ?? {},
+    detailBook: detailData?.data,
+    onAddBook: addNewBook,
+    onUpdateBook: updateBook,
+    onDeleteBook: deleteBook,
+    isLoading,
+    isDetailLoading,
+    isError: error,
+  }
 }

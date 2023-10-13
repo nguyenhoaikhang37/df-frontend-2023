@@ -1,22 +1,20 @@
 'use client'
 
 import Link from 'next/link'
-import { notFound, useParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { Button, Container } from '../../../components/common'
 import { AddEditBookDialog, DeleteBookDialog } from '../../../components/dialog'
 import { useBookSWR } from '../../../utils/hooks/apis'
 
 export default function BookDetail() {
   const params = useParams()
+  const bookId = params?.slug as string
 
   const { detailBook, isDetailLoading } = useBookSWR({
-    bookId: params.slug as string,
+    bookId,
   })
-  console.log('🚀 ~ file: page.tsx:15 ~ BookDetail ~ detailBook:', detailBook)
 
-  if (!detailBook) return notFound()
-
-  if (isDetailLoading) return <div>Loading...</div>
+  if (isDetailLoading || !detailBook) return <div>Loading...</div>
 
   return (
     <main>
@@ -38,7 +36,7 @@ export default function BookDetail() {
 
         <div className="mt-4 flex gap-x-2">
           <DeleteBookDialog book={detailBook} shouldGoToHomePage />
-          <AddEditBookDialog formValues={detailBook} />
+          <AddEditBookDialog formValues={detailBook} bookId={bookId} />
         </div>
       </Container>
     </main>

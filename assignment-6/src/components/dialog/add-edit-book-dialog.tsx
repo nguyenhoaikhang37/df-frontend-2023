@@ -16,15 +16,18 @@ import {
 
 export interface AddEditBookDialogProps {
   formValues?: Book
+  bookId?: string
 }
 
 export default function AddEditBookDialog({
   formValues,
+  bookId,
 }: AddEditBookDialogProps) {
   const searchParams = useSearchParams()
 
   const { onAddBook, onUpdateBook } = useBookSWR({
     params: getFilterBookParams(searchParams),
+    bookId,
   })
 
   const [open, setOpen] = useState(false)

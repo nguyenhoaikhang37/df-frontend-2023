@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { Book } from '../../types'
 import { getFilterBookParams } from '../../utils/functions'
@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './dialog'
+import { RouterPaths } from '../../utils/constants'
 
 interface DeleteBookDialogProps {
   book: Book
@@ -27,8 +28,9 @@ export default function DeleteBookDialog({
 }: DeleteBookDialogProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const pathname = usePathname()
 
-  const { onDeleteBook } = useBookSWR({
+  const { bookList, onDeleteBook } = useBookSWR({
     params: getFilterBookParams(searchParams),
   })
 
@@ -38,9 +40,26 @@ export default function DeleteBookDialog({
   const handleDelete = () => {
     if (!deletedBook) return
 
+    const isLastBookInPage =
+      bookList?.length === 1 && searchParams.get('page') !== '1'
+
     onDeleteBook?.(deletedBook)
+
+    if (isLastBookInPage) {
+      const params = new URLSearchParams(searchParams)
+      params.set(
+        'page',
+        (Number(searchParams.get('page') ?? '1') - 1).toString(),
+      )
+
+      router.push(`${pathname}?${params.toString()}`)
+    }
+
     if (shouldGoToHomePage) {
-      router.back()
+      const params = new URLSearchParams(searchParams)
+      params.set('page', '1')
+
+      router.push(`${RouterPaths.BOOK}?${params.toString()}`)
     }
     setOpen(false)
   }
