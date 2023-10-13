@@ -37,13 +37,11 @@ export default function DeleteBookDialog({
   const [open, setOpen] = useState(false)
   const [deletedBook, setDeletedBook] = useState<Book | null>(null)
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!deletedBook) return
 
     const isLastBookInPage =
       bookList?.length === 1 && searchParams.get('page') !== '1'
-
-    onDeleteBook?.(deletedBook)
 
     if (isLastBookInPage) {
       const params = new URLSearchParams(searchParams)
@@ -54,6 +52,8 @@ export default function DeleteBookDialog({
 
       router.push(`${pathname}?${params.toString()}`)
     }
+
+    await onDeleteBook?.(deletedBook)
 
     if (shouldGoToHomePage) {
       const params = new URLSearchParams(searchParams)

@@ -27,7 +27,6 @@ export function useBookSWR({
     [QueryKeys.GET_BOOK_LIST, params],
     () => bookApi.getAll(params),
     {
-      dedupingInterval: 60 * 1000, // 60s
       keepPreviousData: true,
       isPaused: () => (isSSR() ? true : Boolean(bookId)),
       ...options,
@@ -39,7 +38,6 @@ export function useBookSWR({
     isLoading: isDetailLoading,
     mutate: detailMutate,
   } = useSWR([QueryKeys.GET_BOOK_LIST, bookId], () => bookApi.get(+bookId!), {
-    dedupingInterval: 60 * 1000, // 60s
     isPaused: () => (isSSR() ? true : Boolean(!bookId)),
     ...options,
   })
