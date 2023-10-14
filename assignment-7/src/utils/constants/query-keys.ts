@@ -1,0 +1,5 @@
+export const QueryKeys = {
+  GET_PROFILE: 'GET_PROFILE',
+  GET_BOOK_LIST: 'GET_BOOK_LIST',
+  GET_TOPIC_LIST: 'GET_TOPIC_LIST',
+}
