@@ -23,7 +23,6 @@ const Header = () => {
     },
   })
   console.log('🚀 ~ file: header.tsx:28 ~ Header ~ data:', data)
-
   const handleLogout = () => {
     mutate()
     logout()
